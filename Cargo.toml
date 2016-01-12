@@ -2,6 +2,15 @@
 name = "quicksort"
 version = "0.1.0"
 authors = ["Cristian Rosa <cristian@automative.io>"]
+license = "MPL-2.0"
+description = "A double pivot quicksort implementation for in-place sorting."
+repository = "https://github.com/rosacris/rust-doublepivot-quicksort"
+documentation = "https://github.com/rosacris/rust-doublepivot-quicksort/blob/master/README.md"
 
-[dependencies]
-rand = "*"
+[lib]
+name = "quicksort"
+path = "src/lib.rs"
+doctest = false
+
+[dev-dependencies]
+rand = "0.3"

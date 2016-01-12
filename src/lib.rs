@@ -68,12 +68,6 @@ pub fn quicksort<T>(arr: &mut [T]) where T: Ord + Debug {
     }
 }
 
-fn main() {
-	let vect = &mut [1,2,1,4,3,4,1];
-	quicksort(vect);
-    println!("{:?}", vect);
-}
-
 #[cfg(test)]
 extern crate rand;
 
