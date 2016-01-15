@@ -1,6 +1,6 @@
 [package]
-name = "quicksort"
-version = "0.1.0"
+name = "doublepivot-quicksort"
+version = "0.2.0"
 authors = ["Cristian Rosa <cristian@automative.io>"]
 license = "MPL-2.0"
 description = "A double pivot quicksort implementation for in-place sorting."

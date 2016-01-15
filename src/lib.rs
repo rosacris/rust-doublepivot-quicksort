@@ -1,7 +1,13 @@
 use std::cmp::Ordering;
-use std::fmt::Debug;
 
-fn double_pivot_quicksort<T:Ord+Debug> (arr: &mut [T], left: usize, right: usize) {
+fn double_pivot_quicksort<T:Ord> (arr: &mut [T], left: usize, right: usize) {
+
+	let len = right - left;
+	if len < 27 {
+		insertion_sort(arr, left, right);
+		return;
+	}
+
 	unsafe {
 		// pivots
 		let pivot1 : *mut T = &mut arr[left];
@@ -59,9 +65,21 @@ fn double_pivot_quicksort<T:Ord+Debug> (arr: &mut [T], left: usize, right: usize
 	}
 }
 
+/// An insertion sort for small slices
+#[inline]
+fn insertion_sort<T>(arr: &mut [T], left: usize, right: usize) where T: Ord {
+	for i in (left + 1)..(right + 1) {
+		let mut j = i;
+		while j > left && arr[j].cmp(&arr[j - 1]) == Ordering::Less {
+			arr.swap(j, j - 1);
+			j = j - 1;
+		}
+	}
+}
+
 /// An in-place quicksort for ordered items.
 #[inline]
-pub fn quicksort<T>(arr: &mut [T]) where T: Ord + Debug {
+pub fn quicksort<T>(arr: &mut [T]) where T: Ord {
     let len = arr.len();
     if len > 1 {
     	double_pivot_quicksort(arr, 0, len - 1);
@@ -72,9 +90,8 @@ pub fn quicksort<T>(arr: &mut [T]) where T: Ord + Debug {
 extern crate rand;
 
 #[cfg(test)]
-pub mod test {
+pub mod tests {
     use rand::{self, Rng};
-
     use super::quicksort;
 
     #[test]
@@ -89,4 +106,36 @@ pub mod test {
             }
         }
     }
+
+	#[test]
+	pub fn bench_quicksort1() {
+		let mut rng = rand::thread_rng();
+		let len: usize = 20000000;
+	    let mut v: Vec<isize> = rng.gen_iter::<isize>().take(len).collect();
+	    quicksort(&mut v);
+	}
+
+	#[test]
+	pub fn bench_quicksort2() {
+		let len: usize = 7000;
+	    let mut v: Vec<usize> = (0..len).collect();
+	    quicksort(&mut v);
+	}
+
+	#[test]
+	pub fn bench_sort() {
+		let mut rng = rand::thread_rng();
+		let len: usize = 20000000;
+	    let mut v: Vec<isize> = rng.gen_iter::<isize>().take(len).collect();
+	    v.sort();
+	}
+
+
+	#[test]
+	pub fn bench_sort2() {
+		let len: usize = 7000;
+	    let mut v: Vec<usize> = (0..len).collect();
+	    vq.sort();
+	}
+
 }
